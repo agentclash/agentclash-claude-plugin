@@ -1,0 +1,9 @@
+{
+  "README.md": "9a6e339e6cb50430ae4b810958c0455b41b324dd57e326b361c92bfbc3a6a163",
+  "bundle.json": "e850ae2acbc3ddab0ad984b5c5ae2ebad7c179b676067e785bf99ad6381e6ff1",
+  "compilation.json": "981363fab45b0a4409618a73ece9c03a1a99e37bd732bfe6d8cce8fd3908829e",
+  "sdk-files.json": "3adf0640d77917ef55c35883c85ba1b08c56c2de8aa445dcf4f72d776e38ad94",
+  "suite-spec.json": "c18b3e58ec846fedc7e900a5adc1c68e8e678b119e142c4a7c05aec2f38e5f59",
+  "targets/correct-v2/agentclash_demo.py": "d7692c5b799fa3ea0b65870b3bd6a0a34baa79f2bb8df0f6a76e7a1dc1dd6dd0",
+  "targets/faulty-v1/agentclash_demo.py": "3a275cad8acadd1ae3a7fb7a51ac9d39dd85661cb594feeaaf6cd28485ff6e42"
+}

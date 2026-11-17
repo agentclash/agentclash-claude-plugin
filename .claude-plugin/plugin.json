@@ -1,0 +1,22 @@
+{
+  "name": "agentclash",
+  "version": "0.1.0",
+  "description": "Improve an existing agent with meaningful regression tests and measured baseline/candidate comparisons. Design and validate suites without an AgentClash account; run your actual agent in your own Python environment.",
+  "author": {
+    "name": "AgentClash",
+    "url": "https://www.agentclash.dev"
+  },
+  "homepage": "https://www.agentclash.dev",
+  "repository": "https://github.com/agentclash/agentclash-claude-plugin",
+  "license": "MIT",
+  "keywords": [
+    "agents",
+    "evaluations",
+    "regression",
+    "accuracy",
+    "pytest"
+  ],
+  "privacyPolicyUrl": "https://mcp.agentclash.dev/privacy",
+  "skills": "./skills",
+  "mcpServers": "./.mcp.json"
+}

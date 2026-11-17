@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run agent evaluations locally"
+  short_description: "Run a validated suite on your own agent"
+  default_prompt: "Use $agentclash-run-evals to run my exported suite in my own project."

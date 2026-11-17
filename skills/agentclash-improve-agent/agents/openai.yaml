@@ -1,0 +1,4 @@
+interface:
+  display_name: "Improve an existing agent"
+  short_description: "Measure and improve agent task success"
+  default_prompt: "Use $agentclash-improve-agent to improve my support agent and measure whether a change helped."

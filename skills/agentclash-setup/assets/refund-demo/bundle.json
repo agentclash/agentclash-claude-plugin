@@ -1,0 +1,80 @@
+{
+  "suite": {
+    "schema_version": 1,
+    "template": "refund-support",
+    "template_version": 1,
+    "suite_id": "DEMO-scripted-repeat-refund-v1",
+    "cases": [
+      {
+        "case_id": "DEMO-repeat-refund-01",
+        "name": "DEMO only: repeated duplicate refund",
+        "prompts": [
+          "DEMO: refund duplicate charge demo-duplicate-4207 once; preserve the original and subscription.",
+          "DEMO: I am asking again for that same duplicate refund. Do not refund it twice."
+        ],
+        "split": "development",
+        "fixture": {
+          "original_id": "demo-original-4207",
+          "duplicate_id": "demo-duplicate-4207",
+          "amount_cents": 4207,
+          "subscription_id": "demo-subscription-4207",
+          "refund_api_error": false,
+          "charge_order": "duplicate_first"
+        },
+        "expected": {
+          "duplicate_refunds": 1,
+          "original_refunds": 0,
+          "subscription_active": true,
+          "outcome": "refunded"
+        }
+      }
+    ]
+  },
+  "manifest": {
+    "schema_version": 1,
+    "suite_id": "DEMO-scripted-repeat-refund-v1",
+    "suite_digest": "374b4b4522e2f2596f7e94cf0dae7c2a17a41f48b5480ae553580d5ac8647611",
+    "required_case_ids": [
+      "DEMO-repeat-refund-01"
+    ],
+    "files": {
+      "suite.json": "1eb55ce90b55eeca1c4891e8e8b01b45581e651ed678894eadd383e93d5e84fc",
+      "tests/evaltest/test_refund.py": "c5d6b7d82e1bdca3712fedbd0288cc3faa974e6306e12d23111f7cac0925b76e",
+      "adapter.py": "b1deede16147403f42397d3bc4b5e696a167a0f1e2818a03e2812093b0c25fae",
+      ".agentclash/evaltest.yaml": "dd80e11b9e6046f389c1d8c5fb89d537237828fb9f95a3d1f5dd03b66eb9de70",
+      "README.md": "313924fa1d33b3d9806d06a5f554ec34a2dedc6ae0da4ba6c42497feb420b5b6"
+    }
+  },
+  "files": [
+    {
+      "path": "suite.json",
+      "content": "{\"cases\":[{\"case_id\":\"DEMO-repeat-refund-01\",\"expected\":{\"duplicate_refunds\":1,\"original_refunds\":0,\"outcome\":\"refunded\",\"subscription_active\":true},\"fixture\":{\"amount_cents\":4207,\"charge_order\":\"duplicate_first\",\"duplicate_id\":\"demo-duplicate-4207\",\"original_id\":\"demo-original-4207\",\"refund_api_error\":false,\"subscription_id\":\"demo-subscription-4207\"},\"name\":\"DEMO only: repeated duplicate refund\",\"prompts\":[\"DEMO: refund duplicate charge demo-duplicate-4207 once; preserve the original and subscription.\",\"DEMO: I am asking again for that same duplicate refund. Do not refund it twice.\"],\"split\":\"development\"}],\"schema_version\":1,\"suite_id\":\"DEMO-scripted-repeat-refund-v1\",\"template\":\"refund-support\",\"template_version\":1}\n",
+      "sha256": "1eb55ce90b55eeca1c4891e8e8b01b45581e651ed678894eadd383e93d5e84fc"
+    },
+    {
+      "path": "tests/evaltest/test_refund.py",
+      "content": "\"\"\"Generated deterministic regression; execution uses only your configured target.\"\"\"\nimport importlib.util\nimport json\nfrom pathlib import Path\n\nimport pytest\nfrom agentclash_eval.refund import run_refund_case\n\nROOT = Path(__file__).resolve().parents[2]\nSUITE = json.loads((ROOT / \"suite.json\").read_text(encoding=\"utf-8\"))\n_spec = importlib.util.spec_from_file_location(\"_agentclash_generated_adapter\", ROOT / \"adapter.py\")\nif _spec is None or _spec.loader is None:\n    raise RuntimeError(\"Cannot load the generated AgentClash adapter\")\n_adapter = importlib.util.module_from_spec(_spec)\n_spec.loader.exec_module(_adapter)\n\n\n@pytest.mark.parametrize(\"case\", SUITE[\"cases\"], ids=lambda case: case[\"case_id\"])\ndef test_refund_regression(case):\n    run_refund_case(case, suite=SUITE, target=_adapter.invoke_target)\n",
+      "sha256": "c5d6b7d82e1bdca3712fedbd0288cc3faa974e6306e12d23111f7cac0925b76e"
+    },
+    {
+      "path": "adapter.py",
+      "content": "\"\"\"Load a user-selected target. There is deliberately no fake passing target.\n\nSet AGENTCLASH_EVAL_TARGET=your_module:your_function before running.\nThe function receives (prompt, tools) and returns {\"outcome\": ..., \"message\": ...}.\nUse only the injected tool fixture for refunds, charges, and subscriptions.\nEach case receives a fresh fixture; turns within a case share that fixture.\n\"\"\"\nimport importlib\nimport os\nimport re\n\n\ndef invoke_target(prompt, tools):\n    reference = os.environ.get(\"AGENTCLASH_EVAL_TARGET\", \"\")\n    if not re.fullmatch(r\"[A-Za-z_][A-Za-z0-9_.]*:[A-Za-z_][A-Za-z0-9_]*\", reference):\n        raise RuntimeError(\"Set AGENTCLASH_EVAL_TARGET to an importable module:callable; no default target is provided\")\n    module_name, callable_name = reference.split(\":\", 1)\n    if module_name in (\"adapter\", \"_agentclash_generated_adapter\") and callable_name == \"invoke_target\":\n        raise RuntimeError(\"AGENTCLASH_EVAL_TARGET must name your own agent, not this adapter\")\n    target = getattr(importlib.import_module(module_name), callable_name)\n    if not callable(target):\n        raise TypeError(\"AGENTCLASH_EVAL_TARGET does not resolve to a callable\")\n    return target(prompt, tools)\n",
+      "sha256": "b1deede16147403f42397d3bc4b5e696a167a0f1e2818a03e2812093b0c25fae"
+    },
+    {
+      "path": ".agentclash/evaltest.yaml",
+      "content": "schema_version: 1\ntests_dir: tests/evaltest\nmanifest: suite-manifest.json\n",
+      "sha256": "dd80e11b9e6046f389c1d8c5fb89d537237828fb9f95a3d1f5dd03b66eb9de70"
+    },
+    {
+      "path": "README.md",
+      "content": "# AgentClash local regression bundle\n\nThis bundle has been structurally validated. Your agent has NOT been evaluated.\nUse the verified AgentClash Python SDK wheel (0.2.0a1 report-v2 contract).\nInstall in your isolated Python environment:\npython -m pip install 'https://mcp.agentclash.dev/downloads/agentclash_evals-0.2.0a1-py3-none-any.whl#sha256=1e88b0937555e9233ed9c1562fb4f6095d7a2d0b371b5bbd1d9f5f1cc3a46ca7'\nThis is a hash-verified wheel download, not a claim of a PyPI release.\nUse direct Python execution below; the npm continuation is optional and must\ncontain the compatible runner fix before you use it.\nNever treat a fixed smoke example as evidence about your own agent.\nThe pilot runner supports Linux. macOS requires native CI before a support claim.\nNative Windows execution is blocked; use a Linux environment such as WSL.\n\n1. Copy every file to its stated relative path and verify its SHA-256 digest.\n2. Use an isolated Python environment and install the compatible SDK and pytest.\n3. Make your own module:callable importable in the project environment.\n4. Set AGENTCLASH_EVAL_TARGET=your_module:your_function and set\n   AGENTCLASH_TARGET_REVISION to the exact target revision being evaluated.\n5. Run: agentclash evaltest run --format both --out agentclash-results\n   Python-only alternative: python -m agentclash_eval.runner --tests tests/evaltest --manifest suite-manifest.json --target-revision YOUR_TARGET_REVISION --out agentclash-results\n\nTarget interface: target(prompt, tools) -> dict containing outcome and message.\nAllowed outcomes are refunded, clarify, and error. The injected tools provide:\n- lookup_charges() -> list of charges with id, amount_cents, and duplicate_of\n- refund(charge_id, amount_cents=None) -> refund record\n- get_subscription() -> subscription id and active state\n- cancel_subscription() -> subscription id and active state\n\nWire your agent's tool boundary to these test tools. Do not allow production\npayment tools, network effects, or real refunds in this fixture workflow.\nMissing binding or a missing target is an error, never a passing result.\nEach independent case has fresh state; prompts inside one case share state.\n\nAll provider calls and their costs occur in your environment. The remote MCP\nservice does not execute code, call a model, store reports, or access your laptop.\nReview and sanitize the result before deliberately sharing it for comparison.\n",
+      "sha256": "313924fa1d33b3d9806d06a5f554ec34a2dedc6ae0da4ba6c42497feb420b5b6"
+    },
+    {
+      "path": "suite-manifest.json",
+      "content": "{\"files\":{\".agentclash/evaltest.yaml\":\"dd80e11b9e6046f389c1d8c5fb89d537237828fb9f95a3d1f5dd03b66eb9de70\",\"README.md\":\"313924fa1d33b3d9806d06a5f554ec34a2dedc6ae0da4ba6c42497feb420b5b6\",\"adapter.py\":\"b1deede16147403f42397d3bc4b5e696a167a0f1e2818a03e2812093b0c25fae\",\"suite.json\":\"1eb55ce90b55eeca1c4891e8e8b01b45581e651ed678894eadd383e93d5e84fc\",\"tests/evaltest/test_refund.py\":\"c5d6b7d82e1bdca3712fedbd0288cc3faa974e6306e12d23111f7cac0925b76e\"},\"required_case_ids\":[\"DEMO-repeat-refund-01\"],\"schema_version\":1,\"suite_digest\":\"374b4b4522e2f2596f7e94cf0dae7c2a17a41f48b5480ae553580d5ac8647611\",\"suite_id\":\"DEMO-scripted-repeat-refund-v1\"}\n",
+      "sha256": "676ac252838b3cef272c7186b5e8d5d7b93316a7348cf01271d8e707578ee5ce"
+    }
+  ]
+}

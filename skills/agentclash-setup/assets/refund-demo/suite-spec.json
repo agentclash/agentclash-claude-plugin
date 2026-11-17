@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "template": "refund-support",
+  "template_version": 1,
+  "suite_id": "DEMO-scripted-repeat-refund-v1",
+  "cases": [
+    {
+      "case_id": "DEMO-repeat-refund-01",
+      "name": "DEMO only: repeated duplicate refund",
+      "prompts": [
+        "DEMO: refund duplicate charge demo-duplicate-4207 once; preserve the original and subscription.",
+        "DEMO: I am asking again for that same duplicate refund. Do not refund it twice."
+      ],
+      "split": "development",
+      "fixture": {
+        "original_id": "demo-original-4207",
+        "duplicate_id": "demo-duplicate-4207",
+        "amount_cents": 4207,
+        "subscription_id": "demo-subscription-4207",
+        "refund_api_error": false,
+        "charge_order": "duplicate_first"
+      },
+      "expected": {
+        "duplicate_refunds": 1,
+        "original_refunds": 0,
+        "subscription_active": true,
+        "outcome": "refunded"
+      }
+    }
+  ]
+}
