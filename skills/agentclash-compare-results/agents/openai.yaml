@@ -1,0 +1,4 @@
+interface:
+  display_name: "Compare agent evaluation results"
+  short_description: "Inspect measured improvements and regressions"
+  default_prompt: "Use $agentclash-compare-results to compare my baseline and candidate reports."

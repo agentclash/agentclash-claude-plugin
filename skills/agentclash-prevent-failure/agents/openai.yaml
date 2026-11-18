@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prevent an agent failure"
+  short_description: "Turn a real agent failure into a regression"
+  default_prompt: "Use $agentclash-prevent-failure to prevent this duplicate refund from recurring."

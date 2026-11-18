@@ -1,0 +1,8 @@
+interface:
+  display_name: "Set up AgentClash"
+  short_description: "Start with the capabilities available here"
+  default_prompt: "Use $agentclash-setup for my first supported regression case."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "agentclash"

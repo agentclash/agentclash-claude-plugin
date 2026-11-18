@@ -1,0 +1,23 @@
+{
+  "compiler": "anonymous MCP compile_regression_suite",
+  "endpoint": "https://mcp.agentclash.dev/mcp",
+  "captured_on": "2026-11-10",
+  "evaluation_status": "not_run",
+  "transport_sha256": {
+    "suite.json": "1eb55ce90b55eeca1c4891e8e8b01b45581e651ed678894eadd383e93d5e84fc",
+    "tests/evaltest/test_refund.py": "c5d6b7d82e1bdca3712fedbd0288cc3faa974e6306e12d23111f7cac0925b76e",
+    "adapter.py": "b1deede16147403f42397d3bc4b5e696a167a0f1e2818a03e2812093b0c25fae",
+    ".agentclash/evaltest.yaml": "dd80e11b9e6046f389c1d8c5fb89d537237828fb9f95a3d1f5dd03b66eb9de70",
+    "README.md": "313924fa1d33b3d9806d06a5f554ec34a2dedc6ae0da4ba6c42497feb420b5b6",
+    "suite-manifest.json": "676ac252838b3cef272c7186b5e8d5d7b93316a7348cf01271d8e707578ee5ce"
+  },
+  "validation": {
+    "ok": true,
+    "data": {
+      "status": "valid",
+      "evaluation_status": "not_run",
+      "suite_digest": "374b4b4522e2f2596f7e94cf0dae7c2a17a41f48b5480ae553580d5ac8647611",
+      "validated_file_count": 6
+    }
+  }
+}

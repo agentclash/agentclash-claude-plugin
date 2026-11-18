@@ -1,0 +1,14 @@
+{
+  "name": "agentclash",
+  "description": "Install the AgentClash regression testing plugin for Claude.",
+  "owner": {
+    "name": "AgentClash"
+  },
+  "plugins": [
+    {
+      "name": "agentclash",
+      "version": "0.1.0",
+      "source": "./"
+    }
+  ]
+}
